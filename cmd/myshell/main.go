@@ -61,10 +61,10 @@ func handleEcho(args []string) {
 	if len(args) < 2 {
 		log.Fatal("echo: too less arguments")
 	}
-	if args[1][0] == '"' || args[1][0] == '\'' {
-		fmt.Println(strings.Join(args[1:], " ")[1 : len(strings.Join(args[1:], " "))-1])
-		return
-	}
+	// if args[1][0] == '"' || args[1][0] == '\'' {
+	// 	fmt.Println(strings.Join(args[1:], " ")[1 : len(strings.Join(args[1:], " "))-1])
+	// 	return
+	// }
 
 	var output string
 	for _, arg := range args[1:] {
