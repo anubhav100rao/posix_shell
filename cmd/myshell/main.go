@@ -107,6 +107,7 @@ func handleCommand(command string) {
 }
 
 func main() {
+	// just to make commit
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
