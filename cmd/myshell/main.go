@@ -9,7 +9,32 @@ import (
 	"strings"
 )
 
-var BUILTIN_COMMANDS = []string{"exit", "echo", "type"}
+var BUILTIN_COMMANDS = [...]string{"exit", "echo", "type"}
+
+func searchCommandInDirectory(directory string, command string) (string, bool) {
+	files, err := os.ReadDir(directory)
+	if err != nil {
+		return "", true
+	}
+	for _, file := range files {
+		if file.Name() == command {
+			return directory, false
+		}
+	}
+	return "", true
+}
+
+func handleUnixCommand(path string) (string, bool) {
+	executableDirs := strings.Split(path, ":")
+	for _, dir := range executableDirs {
+		directory, err := searchCommandInDirectory(dir, path)
+		if !err {
+			completePath := directory + "/" + path
+			return completePath, false
+		}
+	}
+	return "", true
+}
 
 func handleInvalidCommand(invalid_command string, default_message ...string) {
 	err_message := "command not found"
@@ -38,11 +63,10 @@ func handleEcho(args []string) {
 }
 
 func handleType(builtin string) {
-	for _, command := range BUILTIN_COMMANDS {
-		if command == builtin {
-			fmt.Printf("%s is a shell builtin\n", builtin)
-			return
-		}
+	completePath, err := handleUnixCommand(builtin)
+	if !err {
+		fmt.Printf("%s is %s\n", builtin, completePath)
+		return
 	}
 	handleInvalidCommand(builtin, "not found")
 }
