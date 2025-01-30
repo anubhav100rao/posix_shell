@@ -14,13 +14,14 @@ func handleInvalidCommand(invalid_command string) {
 func main() {
 	fmt.Fprint(os.Stdout, "$ ")
 
-
 	reader := bufio.NewReader(os.Stdin)
-	input, err := reader.ReadString('\n')
+	for {
+		input, err := reader.ReadString('\n')
 
-	if err != nil {
-		log.Fatal(err)
+		if err != nil {
+			log.Fatal(err)
+		}
+		input = input[:len(input)-1]
+		handleInvalidCommand(input)
 	}
-	input = input[:len(input)-1]
-	handleInvalidCommand(input)
 }
