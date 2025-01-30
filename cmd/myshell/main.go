@@ -98,8 +98,8 @@ func handlePWDCommand() {
 }
 
 func handleCDCommand(args []string) {
-	defaultDir := "/home/user"
-	if len(args) > 1 && args[1] != "~" {
+	defaultDir := ""
+	if len(args) > 1 {
 		defaultDir = args[1]
 	}
 	err := os.Chdir(defaultDir)
