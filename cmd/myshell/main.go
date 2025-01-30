@@ -92,6 +92,22 @@ func handleExecutables(command string) {
 	}
 }
 
+func handlePWDCommand() {
+	pwd, _ := os.Getwd()
+	fmt.Println(pwd)
+}
+
+func handleCDCommand(args []string) {
+	defaultDir := "~"
+	if len(args) > 1 {
+		defaultDir = args[1]
+	}
+	err := os.Chdir(defaultDir)
+	if err != nil {
+		fmt.Printf("cd: %s: No such file or directory\n", defaultDir)
+	}
+}
+
 func handleCommand(command string) {
 	args := strings.Split(command, " ")
 	switch args[0] {
@@ -102,8 +118,9 @@ func handleCommand(command string) {
 	case "type":
 		handleType(strings.Join(args[1:], " "))
 	case "pwd":
-		pwd, _ := os.Getwd()
-		fmt.Println(pwd)
+		handlePWDCommand()
+	case "cd":
+		handleCDCommand(args)
 	default:
 		handleExecutables(command)
 	}
