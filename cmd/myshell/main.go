@@ -73,6 +73,8 @@ func handleEcho(args []string) {
 		suffixTrimmed, _ := strings.CutSuffix(prefixTrimmed, " ")
 		output += suffixTrimmed + " "
 	}
+	// replace ' -> "
+	output = strings.ReplaceAll(output, "'", "\"")
 	fmt.Println(output)
 }
 
