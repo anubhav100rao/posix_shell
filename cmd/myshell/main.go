@@ -64,6 +64,14 @@ func handleEcho(args []string) {
 }
 
 func handleType(builtin string) {
+
+	for _, command := range BUILTIN_COMMANDS {
+		if command == builtin {
+			fmt.Printf("%s is a shell builtin\n", builtin)
+			return
+		}
+	}
+
 	completePath, err := handleUnixCommand(builtin)
 	if !err {
 		fmt.Printf("%s is %s\n", builtin, completePath)
