@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-var BUILTIN_COMMANDS = [...]string{"exit", "echo", "type"}
+var BUILTIN_COMMANDS = [...]string{"exit", "echo", "type", "pwd"}
 
 func searchCommandInDirectory(directory string, command string) (string, bool) {
 	files, err := os.ReadDir(directory)
@@ -107,7 +107,6 @@ func handleCommand(command string) {
 }
 
 func main() {
-	// just to make commit
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
