@@ -24,12 +24,13 @@ func searchCommandInDirectory(directory string, command string) (string, bool) {
 	return "", true
 }
 
-func handleUnixCommand(path string) (string, bool) {
+func handleUnixCommand(builtin string) (string, bool) {
+	path := os.Args[1]
 	executableDirs := strings.Split(path, ":")
 	for _, dir := range executableDirs {
-		directory, err := searchCommandInDirectory(dir, path)
+		directory, err := searchCommandInDirectory(dir, builtin)
 		if !err {
-			completePath := directory + "/" + path
+			completePath := directory + "/" + builtin
 			return completePath, false
 		}
 	}
