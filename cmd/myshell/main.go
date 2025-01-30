@@ -83,18 +83,13 @@ func handleType(builtin string) {
 
 func handleExecutables(command string) {
 	args := strings.Split(command, " ")
-	_, err := handleUnixCommand(args[0])
-	if !err {
-		terminalCommand := exec.Command(args[0], args[1:]...)
-		output, err := terminalCommand.CombinedOutput()
-		if err != nil {
-			fmt.Println("handleExecutables: ", err)
-			log.Fatal(err)
-		}
-		fmt.Println(string(output))
-		return
+	terminalCommand := exec.Command(args[0], args[1:]...)
+	terminalCommand.Stderr = os.Stderr
+	terminalCommand.Stdout = os.Stdout
+	err := terminalCommand.Run()
+	if err != nil {
+		fmt.Printf("%s: command not found\n", args[0])
 	}
-	handleInvalidCommand(command)
 }
 
 func handleCommand(command string) {
