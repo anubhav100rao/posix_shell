@@ -61,6 +61,11 @@ func handleEcho(args []string) {
 	if len(args) < 2 {
 		log.Fatal("echo: too less arguments")
 	}
+	if args[1][0] == '"' || args[1][0] == '\'' {
+		fmt.Println(strings.Join(args[1:], " ")[1 : len(strings.Join(args[1:], " "))-1])
+		return
+	}
+
 	fmt.Println(strings.Join(args[1:], " "))
 }
 
@@ -133,7 +138,6 @@ func handleCommand(command string) {
 }
 
 func main() {
-	// commit
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
