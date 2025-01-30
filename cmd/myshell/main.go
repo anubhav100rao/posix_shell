@@ -11,8 +11,12 @@ import (
 
 var BUILTIN_COMMANDS = []string{"exit", "echo"}
 
-func handleInvalidCommand(invalid_command string) {
-	fmt.Printf("%s: command not found\n", invalid_command)
+func handleInvalidCommand(invalid_command string, default_message ...string) {
+	err_message := "command not found"
+	if len(default_message) > 0 {
+		err_message = default_message[0]
+	}
+	fmt.Printf("%s: %s\n", invalid_command, err_message)
 }
 
 func handleExit(args []string) {
@@ -40,7 +44,7 @@ func handleType(builtin string) {
 			return
 		}
 	}
-	handleInvalidCommand(builtin)
+	handleInvalidCommand(builtin, "not found")
 }
 
 func handleCommand(command string) {
