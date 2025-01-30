@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 )
@@ -80,6 +81,21 @@ func handleType(builtin string) {
 	handleInvalidCommand(builtin, "not found")
 }
 
+func handleExecutables(command string) {
+	args := strings.Split(command, " ")
+	completePath, err := handleUnixCommand(args[0])
+	if !err {
+		terminalCommand := exec.Command(completePath, args[1:]...)
+		output, err := terminalCommand.CombinedOutput()
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(output))
+		return
+	}
+	handleInvalidCommand(command)
+}
+
 func handleCommand(command string) {
 	args := strings.Split(command, " ")
 	switch args[0] {
@@ -90,7 +106,7 @@ func handleCommand(command string) {
 	case "type":
 		handleType(strings.Join(args[1:], " "))
 	default:
-		handleInvalidCommand(command)
+		handleExecutables(command)
 	}
 }
 
