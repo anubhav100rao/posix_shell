@@ -88,7 +88,6 @@ func handleExecutables(command string) {
 	terminalCommand.Stdout = os.Stdout
 	err := terminalCommand.Run()
 	if err != nil {
-		fmt.Println("command ", args[0], " is not working here.......")
 		handleInvalidCommand(args[0])
 	}
 }
@@ -102,6 +101,9 @@ func handleCommand(command string) {
 		handleEcho(args)
 	case "type":
 		handleType(strings.Join(args[1:], " "))
+	case "pwd":
+		pwd, _ := os.Getwd()
+		fmt.Println(pwd)
 	default:
 		handleExecutables(command)
 	}
