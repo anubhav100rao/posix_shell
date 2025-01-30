@@ -127,7 +127,6 @@ func handleCommand(command string) {
 }
 
 func main() {
-	// fmt.Println("Welcome to myshell")
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
