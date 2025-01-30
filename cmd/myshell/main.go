@@ -93,7 +93,7 @@ func handleExecutables(command string) {
 		fmt.Println(string(output))
 		return
 	}
-	// handleInvalidCommand(command)
+	handleInvalidCommand(command)
 }
 
 func handleCommand(command string) {
@@ -111,8 +111,9 @@ func handleCommand(command string) {
 }
 
 func main() {
-	reader := bufio.NewReader(os.Stdin)
+
 	for {
+		reader := bufio.NewReader(os.Stdin)
 		fmt.Fprint(os.Stdout, "$ ")
 		input, err := reader.ReadString('\n')
 
