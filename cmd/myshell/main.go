@@ -12,15 +12,15 @@ func handleInvalidCommand(invalid_command string) {
 }
 
 func main() {
-	// Uncomment this block to pass the first stage
 	fmt.Fprint(os.Stdout, "$ ")
 
-	// Wait for user input
+
 	reader := bufio.NewReader(os.Stdin)
 	input, err := reader.ReadString('\n')
 
 	if err != nil {
 		log.Fatal(err)
 	}
+	input = input[:len(input)-1]
 	handleInvalidCommand(input)
 }
