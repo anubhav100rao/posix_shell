@@ -88,6 +88,7 @@ func handleExecutables(command string) {
 		terminalCommand := exec.Command(args[0], args[1:]...)
 		output, err := terminalCommand.CombinedOutput()
 		if err != nil {
+			fmt.Println("handleExecutables: ", err)
 			log.Fatal(err)
 		}
 		fmt.Println(string(output))
@@ -111,9 +112,8 @@ func handleCommand(command string) {
 }
 
 func main() {
-
+	reader := bufio.NewReader(os.Stdin)
 	for {
-		reader := bufio.NewReader(os.Stdin)
 		fmt.Fprint(os.Stdout, "$ ")
 		input, err := reader.ReadString('\n')
 
