@@ -66,7 +66,14 @@ func handleEcho(args []string) {
 		return
 	}
 
-	fmt.Println(strings.Join(args[1:], " "))
+	var output string
+	for _, arg := range args[1:] {
+		// remove extra spaces
+		prefixTrimmed, _ := strings.CutPrefix(arg, " ")
+		suffixTrimmed, _ := strings.CutSuffix(prefixTrimmed, " ")
+		output += suffixTrimmed + " "
+	}
+	fmt.Println(output)
 }
 
 func handleType(builtin string) {
