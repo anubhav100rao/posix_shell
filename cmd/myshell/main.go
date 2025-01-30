@@ -24,11 +24,20 @@ func handleExit(args []string) {
 	os.Exit(status)
 }
 
+func handleEcho(args []string) {
+	if len(args) < 2 {
+		log.Fatal("echo: too less arguments")
+	}
+	fmt.Println(strings.Join(args[1:], " "))
+}
+
 func handleCommand(command string) {
 	args := strings.Split(command, " ")
 	switch args[0] {
 	case "exit":
 		handleExit(args)
+	case "echo":
+		handleEcho(args)
 	default:
 		handleInvalidCommand(command)
 	}
