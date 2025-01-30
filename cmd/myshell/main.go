@@ -25,7 +25,7 @@ func searchCommandInDirectory(directory string, command string) (string, bool) {
 }
 
 func handleUnixCommand(builtin string) (string, bool) {
-	path := os.Args[1]
+	path := os.Getenv("PATH")
 	executableDirs := strings.Split(path, ":")
 	for _, dir := range executableDirs {
 		directory, err := searchCommandInDirectory(dir, builtin)
