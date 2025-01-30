@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var BUILTIN_COMMANDS = []string{"exit", "echo"}
+
 func handleInvalidCommand(invalid_command string) {
 	fmt.Printf("%s: command not found\n", invalid_command)
 }
@@ -31,6 +33,16 @@ func handleEcho(args []string) {
 	fmt.Println(strings.Join(args[1:], " "))
 }
 
+func handleType(builtin string) {
+	for _, command := range BUILTIN_COMMANDS {
+		if command == builtin {
+			fmt.Printf("%s is a shell builtin\n", builtin)
+			return
+		}
+	}
+	handleInvalidCommand(builtin)
+}
+
 func handleCommand(command string) {
 	args := strings.Split(command, " ")
 	switch args[0] {
@@ -38,6 +50,8 @@ func handleCommand(command string) {
 		handleExit(args)
 	case "echo":
 		handleEcho(args)
+	case "type":
+		handleType(strings.Join(args[1:], " "))
 	default:
 		handleInvalidCommand(command)
 	}
