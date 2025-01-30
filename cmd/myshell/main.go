@@ -88,6 +88,7 @@ func handleExecutables(command string) {
 	terminalCommand.Stdout = os.Stdout
 	err := terminalCommand.Run()
 	if err != nil {
+		fmt.Println("command ", args[0], " is not working here.......")
 		handleInvalidCommand(args[0])
 	}
 }
