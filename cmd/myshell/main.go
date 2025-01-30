@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-var BUILTIN_COMMANDS = []string{"exit", "echo"}
+var BUILTIN_COMMANDS = []string{"exit", "echo", "type"}
 
 func handleInvalidCommand(invalid_command string, default_message ...string) {
 	err_message := "command not found"
