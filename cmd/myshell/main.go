@@ -93,7 +93,7 @@ func handleExecutables(command string) {
 		fmt.Println(string(output))
 		return
 	}
-	handleInvalidCommand(command)
+	// handleInvalidCommand(command)
 }
 
 func handleCommand(command string) {
