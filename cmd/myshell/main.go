@@ -98,10 +98,16 @@ func handlePWDCommand() {
 }
 
 func handleCDCommand(args []string) {
-	defaultDir := ""
+	defaultDir := "~"
 	if len(args) > 1 {
 		defaultDir = args[1]
 	}
+
+	if defaultDir == "~" {
+		homeDir, _ := os.UserHomeDir()
+		defaultDir = homeDir
+	}
+
 	err := os.Chdir(defaultDir)
 	if err != nil {
 		fmt.Printf("cd: %s: No such file or directory\n", defaultDir)
