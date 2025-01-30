@@ -83,9 +83,9 @@ func handleType(builtin string) {
 
 func handleExecutables(command string) {
 	args := strings.Split(command, " ")
-	completePath, err := handleUnixCommand(args[0])
+	_, err := handleUnixCommand(args[0])
 	if !err {
-		terminalCommand := exec.Command(completePath, args[1:]...)
+		terminalCommand := exec.Command(args[0], args[1:]...)
 		output, err := terminalCommand.CombinedOutput()
 		if err != nil {
 			log.Fatal(err)
