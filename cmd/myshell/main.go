@@ -133,6 +133,7 @@ func handleCommand(command string) {
 }
 
 func main() {
+	// commit
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
