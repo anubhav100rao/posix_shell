@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -11,15 +12,15 @@ func handleInvalidCommand(invalid_command string) {
 }
 
 func main() {
-	fmt.Fprint(os.Stdout, "$ ")
 
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		input, _ := reader.ReadString('\n')
+		fmt.Fprint(os.Stdout, "$ ")
+		input, err := reader.ReadString('\n')
 
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
+		if err != nil {
+			log.Fatal(err)
+		}
 		input = input[:len(input)-1]
 		handleInvalidCommand(input)
 	}
