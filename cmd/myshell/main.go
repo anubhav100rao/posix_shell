@@ -75,7 +75,9 @@ func handleEcho(args []string) {
 			if ch == '"' || ch == '\'' {
 				seenQuote = !seenQuote
 			} else {
-				if ch != ' ' || seenQuote {
+				if seenQuote {
+					output += string(ch)
+				} else if ch != ' ' {
 					output += string(ch)
 				}
 			}
