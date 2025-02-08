@@ -126,10 +126,6 @@ func handleCommand(command string) {
 	for _, ch := range command {
 		if ch == '"' || ch == '\'' {
 			seenQuote = !seenQuote
-			if temp != "" {
-				args = append(args, temp)
-				temp = ""
-			}
 		} else {
 			if seenQuote {
 				temp += string(ch)
