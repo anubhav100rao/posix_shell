@@ -66,16 +66,26 @@ func handleEcho(args []string) {
 	// 	return
 	// }
 
-	var output string
+	var outputs []string
 	for _, arg := range args[1:] {
 		// remove extra spaces
-		prefixTrimmed, _ := strings.CutPrefix(arg, " ")
-		suffixTrimmed, _ := strings.CutSuffix(prefixTrimmed, " ")
-		output += suffixTrimmed + " "
+		var seenQuote bool = false
+		var output string
+		for _, ch := range arg {
+			if ch == '"' || ch == '\'' {
+				seenQuote = !seenQuote
+			} else {
+				if ch != ' ' || seenQuote {
+					output += string(ch)
+				}
+			}
+		}
+		if output != "" {
+			outputs = append(outputs, output)
+		}
 	}
-	// replace ' -> "
-	output = strings.ReplaceAll(output, "'", "\"")
-	fmt.Println(output)
+
+	fmt.Println(strings.Join(outputs, " "))
 }
 
 func handleType(builtin string) {
