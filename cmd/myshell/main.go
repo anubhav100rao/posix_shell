@@ -66,7 +66,7 @@ func handleEcho(args []string) {
 	// 	return
 	// }
 
-	fmt.Println(strings.Join(args, " "))
+	fmt.Println(strings.Join(args[1:], " "))
 }
 
 func handleType(builtin string) {
