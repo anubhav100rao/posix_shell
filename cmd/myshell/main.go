@@ -143,6 +143,8 @@ func handleCommand(command string) {
 		args = append(args, temp)
 	}
 
+	// fmt.Println(args, len(args))
+
 	switch args[0] {
 	case "exit":
 		handleExit(args)
