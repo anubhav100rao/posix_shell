@@ -66,28 +66,7 @@ func handleEcho(args []string) {
 	// 	return
 	// }
 
-	var outputs []string
-	for _, arg := range args[1:] {
-		// remove extra spaces
-		var seenQuote bool = false
-		var output string
-		for _, ch := range arg {
-			if ch == '"' || ch == '\'' {
-				seenQuote = !seenQuote
-			} else {
-				if seenQuote {
-					output += string(ch)
-				} else if ch != ' ' {
-					output += string(ch)
-				}
-			}
-		}
-		if output != "" {
-			outputs = append(outputs, output)
-		}
-	}
-
-	fmt.Println(strings.Join(outputs, " "))
+	fmt.Println(strings.Join(args, " "))
 }
 
 func handleType(builtin string) {
@@ -141,7 +120,33 @@ func handleCDCommand(args []string) {
 }
 
 func handleCommand(command string) {
-	args := strings.Split(command, " ")
+	var args []string
+	seenQuote := false
+	temp := ""
+	for _, ch := range command {
+		if ch == '"' || ch == '\'' {
+			seenQuote = !seenQuote
+			if temp != "" {
+				args = append(args, temp)
+				temp = ""
+			}
+		} else {
+			if seenQuote {
+				temp += string(ch)
+			} else if ch == ' ' {
+				if temp != "" {
+					args = append(args, temp)
+					temp = ""
+				}
+			} else {
+				temp += string(ch)
+			}
+		}
+	}
+	if temp != "" {
+		args = append(args, temp)
+	}
+
 	switch args[0] {
 	case "exit":
 		handleExit(args)
