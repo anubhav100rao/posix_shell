@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 var BUILTIN_COMMANDS = [...]string{"exit", "echo", "type", "pwd"}
@@ -119,22 +120,48 @@ func handleCDCommand(args []string) {
 	}
 }
 
+func tokenize(input string) []string {
+	var tokens []string
+	var current strings.Builder
+
+	inQuote := false
+	var quoteChar rune
+
+	for i, ch := range input {
+		switch {
+		case (ch == '\'' || ch == '"') && !inQuote:
+			inQuote = true
+			quoteChar = ch
+			if current.Len() > 0 {
+				tokens = append(tokens, current.String())
+				current.Reset()
+			}
+
+		case ch == quoteChar && inQuote:
+			inQuote = false
+			tokens = append(tokens, current.String())
+			current.Reset()
+
+		case unicode.IsSpace(ch) && !inQuote:
+			if current.Len() > 0 {
+				tokens = append(tokens, current.String())
+				current.Reset()
+			}
+		default:
+			current.WriteRune(ch)
+		}
+
+		if i == len(input)-1 && current.Len() > 0 {
+			tokens = append(tokens, current.String())
+		}
+	}
+
+	return tokens
+}
+
 func handleCommand(command string) {
 	s := strings.Trim(command, "\r\n")
-	var tokens []string
-	for {
-		start := strings.Index(s, "'")
-		if start == -1 {
-			tokens = append(tokens, strings.Fields(s)...)
-			break
-		}
-		tokens = append(tokens, strings.Fields(s[:start])...)
-		s = s[start+1:]
-		end := strings.Index(s, "'")
-		token := s[:end]
-		tokens = append(tokens, token)
-		s = s[end+1:]
-	}
+	var tokens []string = tokenize(s)
 
 	fmt.Println(tokens, len(tokens))
 
