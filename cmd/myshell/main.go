@@ -120,42 +120,35 @@ func handleCDCommand(args []string) {
 }
 
 func handleCommand(command string) {
-	var args []string
-	seenQuote := false
-	temp := ""
-	for _, ch := range command {
-		if ch == '"' || ch == '\'' {
-			seenQuote = !seenQuote
-		} else {
-			if seenQuote {
-				temp += string(ch)
-			} else if ch == ' ' {
-				if temp != "" {
-					args = append(args, temp)
-					temp = ""
-				}
-			} else {
-				temp += string(ch)
-			}
+	s := strings.Trim(command, "\r\n")
+	var tokens []string
+	for {
+		start := strings.Index(s, "'")
+		if start == -1 {
+			tokens = append(tokens, strings.Fields(s)...)
+			break
 		}
-	}
-	if temp != "" {
-		args = append(args, temp)
+		tokens = append(tokens, strings.Fields(s[:start])...)
+		s = s[start+1:]
+		end := strings.Index(s, "'")
+		token := s[:end]
+		tokens = append(tokens, token)
+		s = s[end+1:]
 	}
 
-	// fmt.Println(args, len(args))
+	fmt.Println(tokens, len(tokens))
 
-	switch args[0] {
+	switch tokens[0] {
 	case "exit":
-		handleExit(args)
+		handleExit(tokens)
 	case "echo":
-		handleEcho(args)
+		handleEcho(tokens)
 	case "type":
-		handleType(strings.Join(args[1:], " "))
+		handleType(strings.Join(tokens[1:], " "))
 	case "pwd":
 		handlePWDCommand()
 	case "cd":
-		handleCDCommand(args)
+		handleCDCommand(tokens)
 	default:
 		handleExecutables(command)
 	}
